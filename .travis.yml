@@ -8,10 +8,16 @@ services:
 script:
   - docker build -t udagram-api-feed ./udagram-api-feed
   - docker build -t udagram-api-user ./udagram-api-user
-  - docker tag udagram-api-feed haova/udagram-api-feed:v1
-  - docker tag udagram-api-user haova/udagram-api-user:v1
+  - docker build -t udagram-frontend ./udagram-frontend
+  - docker build -t reverseproxy ./reverseproxy
+  - docker tag udagram-api-feed haova/udagram-api-feed:v2
+  - docker tag udagram-api-user haova/udagram-api-user:v2
+  - docker tag udagram-frontend haova/udagram-frontend:v2
+  - docker tag reverseproxy haova/reverseproxy:v2
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push haova/udagram-api-feed:v1
-  - docker push haova/udagram-api-user:v1
+  - docker push haova/udagram-api-feed:v2
+  - docker push haova/udagram-api-user:v2
+  - docker push haova/udagram-frontend:v2
+  - docker push haova/reverseproxy:v2
